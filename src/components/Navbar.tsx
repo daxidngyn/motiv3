@@ -153,7 +153,6 @@ const CreateGoalModal = ({
       year: DateTime.now().get("year"),
     });
     const diff = Math.abs(startDate.diffNow().as("day"));
-    const wholeNumberedDateDifference = Math.round(diff);
 
     return Math.round(diff);
   };
