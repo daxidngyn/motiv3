@@ -54,6 +54,7 @@ export const followRouter = createProtectedRouter()
           endDate: true,
           description: true,
           buyIn: true,
+          users: true,
         },
         orderBy: {
           createdAt: "desc",

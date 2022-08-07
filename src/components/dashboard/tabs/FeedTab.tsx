@@ -48,10 +48,15 @@ const DashboardFeedTab = ({ session }: any) => {
                   <GoalCard
                     key={goal.id}
                     userName={goal.owner.name!}
+                    description={goal.description}
                     goalTitle={goal.title}
                     betVal={goal.buyIn}
                     postDate={goal.createdAt}
                     endDate={goal.endDate}
+                    users={goal.users}
+                    defaultJoined={false}
+                    id={goal.id}
+                    userId={session.user.id}
                   />
                 ))}
               </div>

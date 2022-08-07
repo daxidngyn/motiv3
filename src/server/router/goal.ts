@@ -84,4 +84,22 @@ export const goalRouter = createRouter()
         select: { goals: true, name: true, id: true },
       });
     },
+  })
+  .mutation("joinGoal", {
+    input: z.object({
+      userId: z.string(),
+      goalId: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      return await ctx.prisma.goal.update({
+        where: { id: input.goalId },
+        data: {
+          users: {
+            connect: {
+              id: input.userId,
+            },
+          },
+        },
+      });
+    },
   });

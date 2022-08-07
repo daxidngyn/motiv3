@@ -1,28 +1,70 @@
 import { DateTime } from "luxon";
-import * as React from "react";
+import Link from "next/link";
+import { useState } from "react";
+import { trpc } from "../utils/trpc";
 interface GoalCardProps {
   userName: string;
   goalTitle: string;
   betVal: number;
   postDate: Date;
   endDate: Date;
+  users: Array<object> | null;
+  defaultJoined: boolean;
+  description: string;
+  id: string;
+  userId: string;
 }
 
 const GoalCard = ({
   userName,
   goalTitle,
+  description,
   betVal,
   postDate,
   endDate,
+  users,
+  defaultJoined,
+  id,
+  userId,
 }: GoalCardProps) => {
+  const [joined, setJoined] = useState(defaultJoined);
+
+  const { mutate: joinGoal } = trpc.useMutation(["goal.joinGoal"], {
+    onSettled(data) {
+      console.log(data);
+    },
+  });
+
   return (
     <div className="p-4 bg-indigo-100 gap-x-12 rounded-sm flex flex-col">
       <div>
-        <div className="h-10 flex items-center">
-          <h3 className="text-2xl font-bold">{goalTitle}</h3>
+        <div className="flex items-center justify-between gap-x-2 relative">
+          <Link href={`/dashboard/goal/${id}`}>
+            <a
+              className={`text-2xl font-semibold underline ${
+                !joined && "pr-24 md:pr-0"
+              }`}
+            >
+              {goalTitle}
+            </a>
+          </Link>
+
+          {!joined && (
+            <div className="absolute top-0 right-0">
+              <button
+                type="button"
+                onClick={() => joinGoal({ userId: userId, goalId: id })}
+                className="bg-indigo-500 text-white rounded-full px-4 py-1.5 hover:bg-indigo-600 transition duration-300 ease-in-out"
+              >
+                Join goal
+              </button>
+            </div>
+          )}
         </div>
 
-        <div className="mt-2 flex flex-col lg:flex-row lg:items-center lg:gap-x-12 space-y-5 lg:space-y-0">
+        <p className="mt-0.5">{description}</p>
+
+        <div className="mt-4 flex flex-col lg:flex-row lg:items-center lg:gap-x-12 space-y-5 lg:space-y-0 text-sm">
           <div className="flex flex-col lg:flex-row lg:items-center">
             <span className="font-medium">Bet Value</span>
             <span className="hidden lg:block">:&nbsp;</span>

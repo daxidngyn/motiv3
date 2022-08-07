@@ -42,9 +42,14 @@ const DashboardHomeTab = ({ session }: any) => {
                     key={goal.id}
                     userName={userGoals.name!}
                     goalTitle={goal.title}
+                    description={goal.description}
                     betVal={goal.buyIn}
                     postDate={goal.createdAt}
                     endDate={goal.endDate}
+                    users={null}
+                    defaultJoined={true}
+                    id={goal.id}
+                    userId={session.user.id}
                   />
                 ))}
               </div>
@@ -87,9 +92,14 @@ const DashboardHomeTab = ({ session }: any) => {
                       key={goal.id}
                       userName={goal.owner.name!}
                       goalTitle={goal.title}
+                      description={goal.description}
                       betVal={goal.buyIn}
                       postDate={goal.createdAt}
                       endDate={goal.endDate}
+                      users={goal.users}
+                      defaultJoined={false}
+                      id={goal.id}
+                      userId={session.user.id}
                     />
                   );
                 })}
