@@ -136,34 +136,4 @@ export const goalRouter = createRouter()
         },
       });
     },
-  }).mutation("voteForMyself", {
-      input: z.object({
-        userId: z.string(),
-        goalId: z.string(),
-        vote: z.boolean()
-      }),
-
-      async resolve({ctx, input}){
-
-        let {userId, goalId, vote} = input;
-
-        return await ctx.prisma.goal.update({
-          where :{id: input.goalId},
-          data:{
-            users:{
-              connect:{
-                id: userId
-              }
-            },
-            goal:{
-              connect:{
-                id: goalId
-              }
-            },
-            completed: vote,
-            userId: userId,
-            goalId: goalId
-          }
-        })
-      }
   })

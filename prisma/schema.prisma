@@ -80,12 +80,10 @@ model Goal {
 
 // every user of goal sohuld have right to vote on every checkpoint for every user
 model Checkpoint {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
-  goal      Goal     @relation(fields: [goalId], references: [id])
+  id        String  @id @default(cuid())
+  user      User    @relation(fields: [userId], references: [id])
+  goal      Goal    @relation(fields: [goalId], references: [id])
   userId    String
   goalId    String
-  date      DateTime
-  votes     Int
-  completed Boolean  @default(false)
+  completed Boolean @default(false)
 }
