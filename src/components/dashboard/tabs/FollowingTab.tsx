@@ -137,7 +137,6 @@ const DashboardFollowingTab = ({ session }: any) => {
                   />
                   <span>{user.name}</span>
                 </div>
-                <button onClick={() => unfollowUser(user.id)}>Unfollow</button>
               </div>
             ))}
           </div>
