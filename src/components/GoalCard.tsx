@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { trpc } from "../utils/trpc";
 interface GoalCardProps {
   userName: string;
@@ -31,9 +31,20 @@ const GoalCard = ({
 
   const { mutate: joinGoal } = trpc.useMutation(["goal.joinGoal"], {
     onSettled(data) {
-      console.log(data);
+      setJoined(true);
     },
   });
+
+  useEffect(() => {
+    if (joined) return;
+
+    // @ts-ignore
+    const found = users?.find((user) => user.id === userId);
+
+    if (found) {
+      setJoined(true);
+    }
+  }, [users]);
 
   return (
     <div className="p-4 bg-indigo-100 gap-x-12 rounded-sm flex flex-col">
