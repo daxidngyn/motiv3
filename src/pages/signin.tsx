@@ -13,8 +13,9 @@ export default function Signin({ providers }: any) {
           <Image
             src="/colorLogo.svg"
             alt="MOTIV3 Logo"
-            width={150}
-            height={150}
+            width={200}
+            height={200}
+            className="scale-150"
           />
         </div>
         <div className="space-y-8 rounded-lg bg-darkgray p-8 md:p-12">
