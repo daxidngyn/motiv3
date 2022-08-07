@@ -86,5 +86,6 @@ model Checkpoint {
   userId    String
   goalId    String
   date      DateTime
+  votes     Int
   completed Boolean  @default(false)
 }

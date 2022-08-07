@@ -2,6 +2,7 @@ import { createRouter } from "./context";
 import { number, z } from "zod";
 import { DateTime } from "luxon";
 import { TRPCError } from "@trpc/server";
+import { resolve } from "path";
 
 export const goalRouter = createRouter()
   .mutation("createGoal", {
@@ -135,10 +136,40 @@ export const goalRouter = createRouter()
         data: {
           users: {
             connect: {
-              id: input.userId,
+              id: userId,
             },
           },
         },
       })
     },
-  });
+  }).mutation("voteForMyself", {
+      input: z.object({
+        userId: z.string(),
+        goalId: z.string(),
+        vote: z.boolean()
+      }),
+
+      async resolve({ctx, input}){
+
+        let {userId, goalId, vote} = input;
+
+        return await ctx.prisma.goal.update({
+          where :{id: input.goalId},
+          data:{
+            users:{
+              connect:{
+                id: userId
+              }
+            },
+            goal:{
+              connect:{
+                id: goalId
+              }
+            },
+            completed: vote,
+            userId: userId,
+            goalId: goalId
+          }
+        })
+      }
+  })
