@@ -10,12 +10,23 @@ const DashboardFollowingTab = ({ session }: any) => {
     enabled: userQuery.length >= 3,
   });
 
-  const { data: followList } = trpc.useQuery([
+  const utils = trpc.useContext();
+
+  const { data: followList, refetch } = trpc.useQuery([
     "follow.getFollowing",
     session.user.id,
   ]);
 
-  const { mutate: follow } = trpc.useMutation(["follow.followUser"]);
+  const { mutate: follow } = trpc.useMutation(["follow.followUser"], {
+    onSuccess() {
+      utils.invalidateQueries(["follow.getFollowing"]);
+    },
+  });
+  const { mutate: unfollow } = trpc.useMutation(["follow.unfollowUser"], {
+    onSuccess() {
+      utils.invalidateQueries(["follow.getFollowing"]);
+    },
+  });
 
   const followUser = (id: string) => {
     follow({
@@ -23,6 +34,14 @@ const DashboardFollowingTab = ({ session }: any) => {
       targetId: id,
     });
     setUserQuery("");
+    refetch();
+  };
+  const unfollowUser = (id: string) => {
+    unfollow({
+      userId: session.user.id,
+      targetId: id,
+    });
+    refetch();
   };
 
   return (
@@ -68,6 +87,7 @@ const DashboardFollowingTab = ({ session }: any) => {
             </div>
           )}
         </div>
+
         {followList && followList?.following.length > 0 ? (
           <div className="mt-4">
             {followList.following.map((user) => (
@@ -86,16 +106,45 @@ const DashboardFollowingTab = ({ session }: any) => {
                   />
                   <span>{user.name}</span>
                 </div>
-                <button>Unfollow</button>
+                <button onClick={() => unfollowUser(user.id)}>Unfollow</button>
               </div>
             ))}
           </div>
         ) : (
-          <div>You aren&apos;t following anyone!</div>
+          <div className="mt-4">You aren&apos;t following anyone!</div>
         )}
       </div>
 
-      <h2 className="font-medium text-xl md:text-2xl pb-2 mt-12">Activity</h2>
+      <div>
+        <h2 className="font-medium text-xl md:text-2xl pb-2 mt-12">
+          Followers
+        </h2>
+        {followList && followList?.followedBy.length > 0 ? (
+          <div className="">
+            {followList.followedBy.map((user) => (
+              <div
+                key={user.id}
+                className="flex items-center bg-grey-200 p-4 rounded-md justify-between"
+              >
+                <div className="flex items-center gap-x-3">
+                  <Image
+                    // @ts-ignore
+                    src={user.image}
+                    width={32}
+                    height={32}
+                    alt={`${user.name} profile picture`}
+                    className="rounded-full"
+                  />
+                  <span>{user.name}</span>
+                </div>
+                <button onClick={() => unfollowUser(user.id)}>Unfollow</button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="">You don&apos;t have any followers LOL LLLLLL</div>
+        )}
+      </div>
     </div>
   );
 };
