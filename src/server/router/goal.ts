@@ -102,6 +102,11 @@ export const goalRouter = createRouter()
         return differenceInDays;
       }
 
+      function addDays(day1: Date, number_added_days: number){
+        let newDate = day1
+        newDate.setDate(day1.getDate()+number_added_days)
+        return newDate
+      }
 
 
       const {startDate, endDate, userId, goalId} = input
@@ -109,11 +114,7 @@ export const goalRouter = createRouter()
 
       let daysInBetween = differenceInDays(startDate, endDate);
 
-      function addDays(day1: Date, number_added_days: number){
-        let newDate = day1
-        newDate.setDate(day1.getDate()+number_added_days)
-        return newDate
-      }
+      
       
       for (let i = 0; i < daysInBetween; i++) {
           await ctx.prisma.checkpoint.create({
