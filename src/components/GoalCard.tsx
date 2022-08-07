@@ -7,8 +7,8 @@ interface GoalCardProps {
 
 const GoalCard = ({ userName, goalTitle, betVal }: GoalCardProps) => {
   return (
-    <div className="p-6 bg-indigo-100 lg:grid grid-cols-12 gap-x-12 rounded-sm flex flex-col-reverse">
-      <div className="mt-5 lg:mt-0 col-span-2 flex lg:flex-col items-center justify-between lg:items-start lg:justify-start">
+    <div className="px-6 py-4 lg:p-6 bg-indigo-100 lg:grid grid-cols-12 gap-x-12 rounded-sm flex flex-col-reverse">
+      <div className="pt-4 lg:pt-0 mt-5 lg:mt-0 col-span-2 flex lg:flex-col items-center justify-between lg:items-start lg:justify-start border-t-2 lg:border-t-0 border-indigo-50">
         <div className="flex items-center gap-x-3">
           <div className="rounded-full bg-indigo-500 w-10 h-10" />
           <div className="text-lg">{userName}</div>

@@ -1,9 +1,11 @@
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import { getMotiv3AuthSession } from "../../utils/getMotiv3AuthSession";
 import Sidebar from "../../components/dashboard/Sidebar";
 import DashboardHomeTab from "../../components/dashboard/tabs/HomeTab";
-import { getMotiv3AuthSession } from "../../utils/getMotiv3AuthSession";
+import DashboardFeedTab from "../../components/dashboard/tabs/FeedTab";
+import DashboardFollowingTab from "../../components/dashboard/tabs/FollowingTab";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -28,6 +30,14 @@ export default function DashboardPage() {
           <div className="flex-grow pt-8 px-6">
             {router.asPath === "/dashboard" && (
               <DashboardHomeTab session={session} />
+            )}
+
+            {router.asPath === "/dashboard?tab=feed" && (
+              <DashboardFeedTab session={session} />
+            )}
+
+            {router.asPath === "/dashboard?tab=following" && (
+              <DashboardFollowingTab session={session} />
             )}
           </div>
         </div>

@@ -1,13 +1,13 @@
-import { DateTime } from "luxon";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { DateTime } from "luxon";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaTimes } from "react-icons/fa";
 import { trpc } from "../utils/trpc";
 import ModalWrapper from "./ModalWrapper";
-import { FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -34,14 +34,16 @@ const Navbar = () => {
           >
             New Goal
           </button>
-          <div className="border rounded-full w-9 h-9 relative">
-            <Image
-              src={session.user?.image!}
-              layout="fill"
-              alt={`${session.user?.name} profile pic`}
-              className="rounded-full"
-            />
-          </div>
+          <Link href="/dashboard">
+            <a className="border rounded-full w-9 h-9 relative">
+              <Image
+                src={session.user?.image!}
+                layout="fill"
+                alt={`${session.user?.name} profile pic`}
+                className="rounded-full"
+              />
+            </a>
+          </Link>
 
           <CreateGoalModal
             isOpen={createGoalModalIsOpen}
@@ -83,6 +85,7 @@ const CreateGoalModal = ({
   const [description, setDescription] = useState("");
   const [endDate, setEndDate] = useState(new Date());
   const [buyIn, setBuyIn] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const [userQuery, setUserQuery] = useState("");
 
@@ -92,6 +95,7 @@ const CreateGoalModal = ({
   const uploadGoal = trpc.useMutation(["goal.createGoal"], {
     onSettled: async (data, error, variables, context) => {
       console.log("uploaded goal:", data);
+      setLoading(false);
     },
   });
 
@@ -119,6 +123,7 @@ const CreateGoalModal = ({
   };
 
   const createGoal = () => {
+    setLoading(true);
     const days = calculateDayDiff(endDate);
     const includedUsers = addedUsers.map((user) => {
       return { id: user.id };
@@ -270,6 +275,7 @@ const CreateGoalModal = ({
         <div className="flex items-center justify-end border-t p-4 border-grey-900 relative z-10">
           <button
             type="button"
+            disabled={loading}
             className=" font-semibold bg-white rounded-md px-4 py-2"
             onClick={createGoal}
           >

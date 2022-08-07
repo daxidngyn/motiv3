@@ -1,14 +1,39 @@
 import { createProtectedRouter } from "./protected-router";
+import { z } from "zod";
 
 // Example router with queries that can only be hit if the user requesting is signed in
 export const protectedExampleRouter = createProtectedRouter()
-  .query("getSession", {
-    resolve({ ctx }) {
-      return ctx.session;
+  .query("getFollowing", {
+    input: z.string(),
+    async resolve({ ctx, input }) {
+      return await ctx.prisma.user.findUnique({
+        where: {
+          id: input,
+        },
+        select: {
+          followedBy: true,
+          following: true,
+        },
+      });
     },
   })
-  .query("getSecretMessage", {
-    resolve({ ctx }) {
-      return "He who asks a question is a fool for five minutes; he who does not ask a question remains a fool forever.";
+  .mutation("followUser", {
+    input: z.object({
+      userId: z.string(),
+      targetId: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      return await ctx.prisma.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          following: {
+            connect: {
+              id: input.targetId,
+            },
+          },
+        },
+      });
     },
   });
