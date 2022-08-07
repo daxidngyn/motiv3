@@ -10,7 +10,12 @@ export default function Signin({ providers }: any) {
     <main className="flex-grow h-full flex flex-col justify-center items-center">
       <div className="max-w-2xl mx-auto w-full border rounded-lg p-4">
         <div className="flex items-center justify-center pt-6">
-          <Image src="/logo.svg" alt="MOTIV3 Logo" width={150} height={150} />
+          <Image
+            src="/colorLogo.svg"
+            alt="MOTIV3 Logo"
+            width={150}
+            height={150}
+          />
         </div>
         <div className="space-y-8 rounded-lg bg-darkgray p-8 md:p-12">
           {providers && "discord" in providers && (
