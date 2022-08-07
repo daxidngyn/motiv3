@@ -1,11 +1,20 @@
+import { DateTime } from "luxon";
 import * as React from "react";
 interface GoalCardProps {
   userName: string;
   goalTitle: string;
   betVal: number;
+  postDate: Date;
+  endDate: Date;
 }
 
-const GoalCard = ({ userName, goalTitle, betVal }: GoalCardProps) => {
+const GoalCard = ({
+  userName,
+  goalTitle,
+  betVal,
+  postDate,
+  endDate,
+}: GoalCardProps) => {
   return (
     <div className="p-4 bg-indigo-100 gap-x-12 rounded-sm flex flex-col">
       <div>
@@ -23,7 +32,12 @@ const GoalCard = ({ userName, goalTitle, betVal }: GoalCardProps) => {
           <div className="flex flex-col lg:flex-row lg:items-center">
             <span className="font-medium">Timeframe</span>
             <span className="hidden lg:block">:&nbsp;</span>
-            <span>8/6/22 - 1/6/23</span>
+            <span>
+              {/* @ts-ignore */}
+              {postDate.toLocaleDateString(DateTime.DATE_SHORT)}-
+              {/* @ts-ignore */}
+              {endDate.toLocaleDateString(DateTime.DATE_SHORT)}
+            </span>
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-center">
@@ -37,7 +51,10 @@ const GoalCard = ({ userName, goalTitle, betVal }: GoalCardProps) => {
           <div className="rounded-full bg-indigo-500 w-8 h-8 lg:w-10 lg:h-10" />
           <div className="lg:text-lg">{userName}</div>
         </div>
-        <div className="opacity-70 lg:mt-2 text-sm">Posted on x</div>
+        <div className="opacity-70 lg:mt-2 text-sm">
+          {/* @ts-ignore */}
+          Posted on {postDate.toLocaleDateString(DateTime.DATE_SHORT)}
+        </div>
       </div>
     </div>
   );
