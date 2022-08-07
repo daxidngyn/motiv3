@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -6,8 +7,10 @@ import { FaAngleLeft } from "react-icons/fa";
 import { prisma } from "../../../server/db/client";
 
 export default function GoalPage({ goalData }: any) {
+  const { data: session } = useSession();
   const router = useRouter();
 
+  console.log(goalData);
   const numCheckpoints = goalData.checkpoints.length / goalData.users.length;
 
   const toggleCheckpoint = (checkpoint: any) => {
@@ -96,47 +99,54 @@ export default function GoalPage({ goalData }: any) {
               Checkpoints
             </h2>
 
-            <div className="mt-6 space-y-12">
-              {goalData.users.map((user: any) => (
-                <div key={user.id}>
-                  <div className="flex items-center gap-x-2 justify-center">
-                    <Image
-                      src={user.image}
-                      alt={`${user.name} profile picture`}
-                      width={60}
-                      height={60}
-                      className="rounded-full"
-                    />
-                    <div className="text-2xl font-medium">{user.name}</div>
-                  </div>
-                  <div className="relative flex items-center justify-center mt-6">
-                    <div className="w-fit flex items-center gap-x-16">
-                      {[...Array(numCheckpoints)].map((x, i) => (
-                        <div key={i} className="flex flex-col items-center">
-                          <div
-                            onClick={() =>
-                              toggleCheckpoint(goalData.checkpoints[i])
-                            }
-                            className={`w-10 h-10 rounded-full border border-black bg-white relative z-20 ${
-                              checkIfValidToVote(goalData.checkpoints[i]) &&
-                              "cursor-pointer"
-                            }`}
-                          />
-                          <div className="mt-2">
-                            {new Date(
-                              goalData.checkpoints[i].date
-                            ).toLocaleDateString(
-                              // @ts-ignore
-                              DateTime.DATE_SHORT
-                            )}
-                          </div>
+            {session && (
+              <div className="mt-6 space-y-12">
+                {goalData.users.map((user: any) => {
+                  // @ts-ignore
+                  // if (user.id === session.user.id) return null;
+
+                  return (
+                    <div key={user.id}>
+                      <div className="flex items-center gap-x-2 justify-center">
+                        <Image
+                          src={user.image}
+                          alt={`${user.name} profile picture`}
+                          width={50}
+                          height={50}
+                          className="rounded-full"
+                        />
+                        <div className="text-2xl font-medium">{user.name}</div>
+                      </div>
+                      <div className="relative flex items-center justify-center mt-6">
+                        <div className="w-fit flex items-center gap-x-16">
+                          {[...Array(numCheckpoints)].map((x, i) => (
+                            <div key={i} className="flex flex-col items-center">
+                              <div
+                                onClick={() =>
+                                  toggleCheckpoint(goalData.checkpoints[i])
+                                }
+                                className={`w-10 h-10 rounded-full border border-black bg-white relative z-20 ${
+                                  checkIfValidToVote(goalData.checkpoints[i]) &&
+                                  "cursor-pointer"
+                                }`}
+                              />
+                              <div className="mt-2">
+                                {new Date(
+                                  goalData.checkpoints[i + 1].date
+                                ).toLocaleDateString(
+                                  // @ts-ignore
+                                  DateTime.DATE_SHORT
+                                )}
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </main>

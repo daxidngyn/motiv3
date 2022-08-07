@@ -53,8 +53,6 @@ export const goalRouter = createRouter()
         }
       }
 
-      console.log(generateCheckpoints);
-
       return await ctx.prisma.goal.create({
         data: {
           title: title,
@@ -111,18 +109,14 @@ export const goalRouter = createRouter()
 
       let daysInBetween = differenceInDays(startDate, endDate);
 
+      const generateCheckpoints = [];
       for (let i = 0; i < daysInBetween; i++) {
-        await ctx.prisma.checkpoint.create({
-          data: {
-            user: {
-              connect: { id: userId },
-            },
-            goal: {
-              connect: { id: goalId },
-            },
-            date: addDays(startDate, i),
-            completed: false,
+        generateCheckpoints.push({
+          user: {
+            connect: { id: userId },
           },
+          date: addDays(startDate, i),
+          completed: false,
         });
       }
 
@@ -134,6 +128,9 @@ export const goalRouter = createRouter()
             connect: {
               id: input.userId,
             },
+          },
+          checkpoints: {
+            create: [...generateCheckpoints],
           },
         },
       });
