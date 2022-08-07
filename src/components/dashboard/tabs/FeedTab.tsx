@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { trpc } from "../../../utils/trpc";
 import GoalCard from "../../GoalCard";
 
@@ -9,24 +10,26 @@ const DashboardFeedTab = ({ session }: any) => {
     { enabled: !!session, refetchOnWindowFocus: true }
   );
 
+  const { data: followingFeed } = trpc.useQuery(
+    ["follow.getFollowingFeed", { userId: session.user?.id }],
+    { enabled: !!session }
+  );
+
+  console.log(followingFeed);
+
   return (
     <div>
       <div className="flex items-center justify-between">
         <h1 className="font-semibold text-3xl md:text-4xl">My Feed</h1>
-        <div className="flex items-center gap-x-4">
-          <div>
-            <span>Following</span>
-          </div>
-          <div>
-            <span>Followers</span>
-          </div>
-        </div>
+        <Link href="/dashboard?tab=following">
+          <a>View following</a>
+        </Link>
       </div>
-      <div className="mt-6 md:mt-8">
-        <h2 className="font-medium text-xl md:text-2xl pb-2">Active Goals</h2>
-        {userGoals && (
+
+      <div className="mt-6">
+        {followingFeed && (
           <>
-            {userGoals.goals.length == 0 ? (
+            {followingFeed.length == 0 ? (
               <div className="flex flex-col items-center justify-center mt-4">
                 <Image
                   src="/add_goal_graphic.svg"
@@ -35,15 +38,16 @@ const DashboardFeedTab = ({ session }: any) => {
                   alt="Add goals graphic"
                 />
                 <h3 className="mt-6 text-lg font-medium">
-                  You havn&apos;t created any goals yet!
+                  No one that you follow have created any goals! Find some more
+                  friends bud lel
                 </h3>
               </div>
             ) : (
               <div className="space-y-3">
-                {userGoals.goals.map((goal) => (
+                {followingFeed.map((goal, idx) => (
                   <GoalCard
                     key={goal.id}
-                    userName={userGoals.name!}
+                    userName={goal.owner.name!}
                     goalTitle={goal.title}
                     betVal={goal.buyIn}
                     postDate={goal.createdAt}
@@ -55,8 +59,6 @@ const DashboardFeedTab = ({ session }: any) => {
           </>
         )}
       </div>
-
-      <h2 className="font-medium text-xl md:text-2xl pb-2 mt-12">Activity</h2>
     </div>
   );
 };

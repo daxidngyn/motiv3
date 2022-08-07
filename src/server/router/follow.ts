@@ -55,6 +55,9 @@ export const followRouter = createProtectedRouter()
           description: true,
           buyIn: true,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
     },
   })

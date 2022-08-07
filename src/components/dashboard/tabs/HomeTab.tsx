@@ -14,8 +14,6 @@ const DashboardHomeTab = ({ session }: any) => {
     { enabled: !!session }
   );
 
-  console.log(followingFeed);
-
   return (
     <div>
       <h1 className="font-semibold text-3xl md:text-4xl">
