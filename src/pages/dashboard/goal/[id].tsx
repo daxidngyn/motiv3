@@ -5,16 +5,29 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FaAngleLeft } from "react-icons/fa";
 import { prisma } from "../../../server/db/client";
+import { trpc } from "../../../utils/trpc";
 
 export default function GoalPage({ goalData }: any) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  console.log(goalData);
   const numCheckpoints = goalData.checkpoints.length / goalData.users.length;
 
   const toggleCheckpoint = (checkpoint: any) => {
     if (!checkIfValidToVote(checkpoint)) return;
+
+    check.mutate({ checkpointId: checkpoint.id });
+  };
+
+  const checkIfLess = (date: any) => {
+    var d = new Date();
+    d.setDate(d.getDate() - 1);
+
+    if (new Date(date) <= d) {
+      return true;
+    }
+
+    return false;
   };
 
   const checkIfValidToVote = (checkpoint: any) => {
@@ -24,9 +37,17 @@ export default function GoalPage({ goalData }: any) {
     return (
       today.day === date.day &&
       today.month === date.month &&
-      today.year === date.year
+      today.year === date.year &&
+      // @ts-ignore
+      checkpoint.userId === session.user.id
     );
   };
+
+  const check = trpc.useMutation(["goal.check"], {
+    onSettled() {
+      router.reload();
+    },
+  });
 
   return (
     <>
@@ -119,27 +140,35 @@ export default function GoalPage({ goalData }: any) {
                       </div>
                       <div className="relative flex items-center justify-center mt-6">
                         <div className="w-fit flex items-center gap-x-16">
-                          {[...Array(numCheckpoints)].map((x, i) => (
-                            <div key={i} className="flex flex-col items-center">
+                          {goalData.checkpoints.map((checkpoint: any) => {
+                            if (checkpoint.userId !== user.id) return null;
+
+                            return (
                               <div
-                                onClick={() =>
-                                  toggleCheckpoint(goalData.checkpoints[i])
-                                }
-                                className={`w-10 h-10 rounded-full border border-black bg-white relative z-20 ${
-                                  checkIfValidToVote(goalData.checkpoints[i]) &&
-                                  "cursor-pointer"
-                                }`}
-                              />
-                              <div className="mt-2">
-                                {new Date(
-                                  goalData.checkpoints[i].date
-                                ).toLocaleDateString(
-                                  // @ts-ignore
-                                  DateTime.DATE_SHORT
-                                )}
+                                key={checkpoint.id}
+                                className="flex flex-col items-center"
+                              >
+                                <div
+                                  onClick={() => toggleCheckpoint(checkpoint)}
+                                  className={`w-10 h-10 rounded-full border border-black bg-white relative z-20 ${
+                                    checkIfValidToVote(checkpoint) &&
+                                    "cursor-pointer"
+                                  } ${
+                                    checkpoint.completed
+                                      ? "bg-green-500"
+                                      : checkIfLess(checkpoint.date) &&
+                                        "bg-red-500"
+                                  }`}
+                                />
+                                <div className="mt-2">
+                                  {new Date(checkpoint.date).toLocaleDateString(
+                                    // @ts-ignore
+                                    DateTime.DATE_SHORT
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       </div>
                     </div>

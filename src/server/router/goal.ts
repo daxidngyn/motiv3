@@ -137,3 +137,18 @@ export const goalRouter = createRouter()
       });
     },
   })
+  .mutation("check", {
+    input: z.object({
+      checkpointId: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      return await ctx.prisma.checkpoint.update({
+        where: {
+          id: input.checkpointId,
+        },
+        data: {
+          completed: true,
+        },
+      });
+    },
+  });
