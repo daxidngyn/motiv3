@@ -27,7 +27,7 @@ export default function DashboardPage() {
       <main className="flex-grow h-full flex flex-col">
         <div className="relative z-10 flex h-full flex-grow items-stretch overflow-hidden bg-grey-100">
           <Sidebar />
-          <div className="flex-grow py-8 px-6">
+          <div className="flex-grow py-8 px-6 pl-20 md:pl-48">
             {router.asPath === "/dashboard" && (
               <DashboardHomeTab session={session} />
             )}
