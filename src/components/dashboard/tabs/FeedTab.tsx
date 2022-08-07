@@ -15,7 +15,7 @@ const DashboardFeedTab = ({ session }: any) => {
     { enabled: !!session }
   );
 
-  console.log(followingFeed);
+  //   console.log(followingFeed);
 
   return (
     <div>

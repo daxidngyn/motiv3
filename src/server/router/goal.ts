@@ -52,9 +52,8 @@ export const goalRouter = createRouter()
         },
       });
 
-      if (users.length === 0) return newGoal;
-
       const goalId = newGoal.id;
+      const newUsers = [...users, { id: owner }];
 
       for (let i = 0; i < daysInBetween; i++) {
         for (let idx in users) {
