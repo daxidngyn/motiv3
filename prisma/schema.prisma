@@ -67,7 +67,7 @@ model VerificationToken {
 model Goal {
   id          String       @id @default(cuid())
   owner       User         @relation("UserGoals", fields: [ownerId], references: [id])
-  ownerId      String
+  ownerId     String
   users       User[]
   title       String
   description String
