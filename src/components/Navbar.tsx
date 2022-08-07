@@ -142,6 +142,10 @@ const CreateGoalModal = ({
       buyIn: buyIn,
       daysInBetween: days,
     });
+
+    toggleIsOpen(
+      
+    )
   };
 
   const calculateDayDiff = (day: Date) => {
