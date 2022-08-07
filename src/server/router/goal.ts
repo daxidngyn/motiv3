@@ -38,7 +38,25 @@ export const goalRouter = createRouter()
         daysInBetween,
       } = input;
 
-      const newGoal = await ctx.prisma.goal.create({
+      const newUsers = [...users, { id: owner }];
+
+      const generateCheckpoints = [];
+      for (let i = 0; i < daysInBetween; i++) {
+        for (let idx in newUsers) {
+          if (newUsers[idx]?.id === undefined) continue;
+          generateCheckpoints.push({
+            user: {
+              connect: { id: newUsers[idx]?.id },
+            },
+            date: DateTime.now().plus({ days: i }).toJSDate(),
+            completed: false,
+          });
+        }
+      }
+
+      console.log(generateCheckpoints);
+
+      return await ctx.prisma.goal.create({
         data: {
           title: title,
           description: description,
@@ -48,32 +66,13 @@ export const goalRouter = createRouter()
             connect: { id: owner },
           },
           users: {
-            connect: [...users],
+            connect: [...newUsers],
+          },
+          checkpoints: {
+            create: [...generateCheckpoints],
           },
         },
       });
-
-      const goalId = newGoal.id;
-      const newUsers = [...users, { id: owner }];
-
-      for (let i = 0; i < daysInBetween; i++) {
-        for (let idx in users) {
-          await ctx.prisma.checkpoint.create({
-            data: {
-              user: {
-                connect: { id: users[idx]?.id },
-              },
-              goal: {
-                connect: { id: goalId },
-              },
-              date: DateTime.now().plus({ days: i }).toJSDate(),
-              completed: false,
-            },
-          });
-        }
-      }
-
-      return newGoal;
     },
   })
   .query("fetchAll", {
@@ -81,7 +80,7 @@ export const goalRouter = createRouter()
     async resolve({ ctx, input }) {
       return await ctx.prisma.user.findUnique({
         where: { id: input },
-        select: { goals: true, name: true, id: true },
+        select: { goals: true, name: true, id: true, joinedGoals: true },
       });
     },
   })
@@ -90,48 +89,46 @@ export const goalRouter = createRouter()
       userId: z.string(),
       goalId: z.string(),
       startDate: z.date(),
-      endDate: z.date()
+      endDate: z.date(),
     }),
     async resolve({ ctx, input }) {
-
-      const differenceInDays = (startDate: Date, endDate: Date) =>{
+      const differenceInDays = (startDate: Date, endDate: Date) => {
         let differenceInTime = startDate.getTime() - endDate.getTime();
 
-        let differenceInDays = Math.round(differenceInTime/(1000*3600*24))
+        let differenceInDays = Math.round(
+          differenceInTime / (1000 * 3600 * 24)
+        );
 
         return differenceInDays;
+      };
+
+      function addDays(day1: Date, number_added_days: number) {
+        let newDate = day1;
+        newDate.setDate(day1.getDate() + number_added_days);
+        return newDate;
       }
 
-      function addDays(day1: Date, number_added_days: number){
-        let newDate = day1
-        newDate.setDate(day1.getDate()+number_added_days)
-        return newDate
-      }
-
-
-      const {startDate, endDate, userId, goalId} = input
-
+      const { startDate, endDate, userId, goalId } = input;
 
       let daysInBetween = differenceInDays(startDate, endDate);
 
-      
-      
       for (let i = 0; i < daysInBetween; i++) {
-          await ctx.prisma.checkpoint.create({
-            data: {
-              user: {
-                connect: { id: userId },
-              },
-              goal: {
-                connect: { id: goalId },
-              },
-              date: addDays(startDate, i),
-              completed: false,
-          }});
-        }
-  
+        await ctx.prisma.checkpoint.create({
+          data: {
+            user: {
+              connect: { id: userId },
+            },
+            goal: {
+              connect: { id: goalId },
+            },
+            date: addDays(startDate, i),
+            completed: false,
+          },
+        });
+      }
+
       return await ctx.prisma.goal.update({
-        where: { id: input.goalId }, 
+        where: { id: input.goalId },
         //given the goalId we need to reference the rest of the data in the schema
         data: {
           users: {
@@ -140,7 +137,7 @@ export const goalRouter = createRouter()
             },
           },
         },
-      })
+      });
     },
   }).mutation("voteForMyself", {
       input: z.object({

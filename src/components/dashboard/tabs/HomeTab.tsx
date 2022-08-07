@@ -58,6 +58,49 @@ const DashboardHomeTab = ({ session }: any) => {
         )}
       </div>
 
+      <div className="mt-6">
+        <h2 className="font-medium text-xl md:text-2xl pb-2">Joined Goals</h2>
+        {userGoals && (
+          <>
+            {userGoals.joinedGoals.length == 0 ? (
+              <div className="flex flex-col items-center justify-center mt-4">
+                <Image
+                  src="/add_goal_graphic.svg"
+                  width={200}
+                  height={200}
+                  alt="Add goals graphic"
+                />
+                <h3 className="mt-6 text-lg font-medium">
+                  You havn&apos;t been added to any goals yet!
+                </h3>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {userGoals.joinedGoals.map((goal) => {
+                  if (goal.ownerId === session.user.id) return null;
+
+                  return (
+                    <GoalCard
+                      key={goal.id}
+                      userName={userGoals.name!}
+                      goalTitle={goal.title}
+                      description={goal.description}
+                      betVal={goal.buyIn}
+                      postDate={goal.createdAt}
+                      endDate={goal.endDate}
+                      users={null}
+                      defaultJoined={true}
+                      id={goal.id}
+                      userId={session.user.id}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
       <div>
         <div className="flex items-center justify-between pb-2 mt-12">
           <h2 className="font-medium text-xl md:text-2xl ">Latest Activity</h2>
