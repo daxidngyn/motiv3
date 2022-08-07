@@ -91,7 +91,7 @@ const CreateGoalModal = ({
   });
   const uploadGoal = trpc.useMutation(["goal.createGoal"], {
     onSettled: async (data, error, variables, context) => {
-      toggleIsOpen();
+      console.log("uploaded goal:", data);
     },
   });
 

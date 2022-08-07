@@ -10,7 +10,7 @@ export default function DashboardPage() {
   const { data: userGoals } = trpc.useQuery(
     // @ts-ignore
     ["goal.fetchAll", session.user?.id],
-    { enabled: !!session }
+    { enabled: !!session, refetchOnWindowFocus: true }
   );
 
   if (status === "loading")
