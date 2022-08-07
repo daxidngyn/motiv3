@@ -1,13 +1,14 @@
 // Download the helper library from https://www.twilio.com/docs/node/install
 // Find your Account SID and Auth Token at twilio.com/console
 // and set the environment variables. See http://twil.io/secure
+import { env } from "../env/server.mjs";
 
 
 //we know how to schedule messages and send messages 
-const accountSid = process.env.ACCOUNT_SID
-const authToken = process.env.AUTH_TOKEN
-const messagingServicesSid = process.env.MESSAGING_SERVICES_SID
-const myPhoneNumber = process.env.MY_PHONE_NUMBER
+const accountSid = env.ACCOUNT_SID
+const authToken = env.AUTH_TOKEN
+const messagingServicesSid = env.MESSAGING_SERVICES_SID
+const myPhoneNumber = env.MY_PHONE_NUMBER
 const client = require('twilio')(accountSid, authToken);
 const randomString  = require('randomstring')
 
