@@ -67,7 +67,7 @@ const DashboardFollowingTab = ({ session }: any) => {
           </div>
 
           {userQuery.length >= 3 && userResults && userResults.length > 0 && (
-            <div className="bg-white shadow-lg absolute -bottom-28 w-full">
+            <div className="bg-white shadow-lg absolute -bottom-28 w-full z-50">
               <div className="px-4 py-2 border-b">
                 Showing {userResults.length}&nbsp;
                 {userResults.length === 1 ? "result" : "results"} for &quot;
@@ -89,7 +89,7 @@ const DashboardFollowingTab = ({ session }: any) => {
         </div>
 
         {followList && followList?.following.length > 0 ? (
-          <div className="mt-4">
+          <div className="mt-4 relative z-10 space-y-2">
             {followList.following.map((user) => (
               <div
                 key={user.id}
@@ -120,7 +120,7 @@ const DashboardFollowingTab = ({ session }: any) => {
           Followers
         </h2>
         {followList && followList?.followedBy.length > 0 ? (
-          <div className="">
+          <div className="space-y-2">
             {followList.followedBy.map((user) => (
               <div
                 key={user.id}

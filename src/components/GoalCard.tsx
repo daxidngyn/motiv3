@@ -7,16 +7,8 @@ interface GoalCardProps {
 
 const GoalCard = ({ userName, goalTitle, betVal }: GoalCardProps) => {
   return (
-    <div className="px-6 py-4 lg:p-6 bg-indigo-100 lg:grid grid-cols-12 gap-x-12 rounded-sm flex flex-col-reverse">
-      <div className="pt-4 lg:pt-0 mt-5 lg:mt-0 col-span-2 flex lg:flex-col items-center justify-between lg:items-start lg:justify-start border-t-2 lg:border-t-0 border-indigo-50">
-        <div className="flex items-center gap-x-3">
-          <div className="rounded-full bg-indigo-500 w-10 h-10" />
-          <div className="text-lg">{userName}</div>
-        </div>
-        <div className="opacity-70 lg:mt-2 text-sm">Posted on x</div>
-      </div>
-
-      <div className="col-span-10">
+    <div className="p-4 bg-indigo-100 gap-x-12 rounded-sm flex flex-col">
+      <div>
         <div className="h-10 flex items-center">
           <h3 className="text-2xl font-bold">{goalTitle}</h3>
         </div>
@@ -38,6 +30,14 @@ const GoalCard = ({ userName, goalTitle, betVal }: GoalCardProps) => {
             <span className="font-medium">Daily</span>
           </div>
         </div>
+      </div>
+
+      <div className="pt-4 mt-4 lg:mt-0 flex items-center justify-between border-t-2 lg:border-t-0 border-indigo-50">
+        <div className="flex items-center gap-x-2 lg:gap-x-3">
+          <div className="rounded-full bg-indigo-500 w-8 h-8 lg:w-10 lg:h-10" />
+          <div className="lg:text-lg">{userName}</div>
+        </div>
+        <div className="opacity-70 lg:mt-2 text-sm">Posted on x</div>
       </div>
     </div>
   );
