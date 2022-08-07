@@ -64,7 +64,14 @@ const GoalCard = ({
             <div className="absolute top-0 right-0">
               <button
                 type="button"
-                onClick={() => joinGoal({ userId: userId, goalId: id })}
+                onClick={() =>
+                  joinGoal({
+                    userId: userId,
+                    goalId: id,
+                    startDate: postDate,
+                    endDate,
+                  })
+                }
                 className="bg-indigo-500 text-white rounded-full px-4 py-1.5 hover:bg-indigo-600 transition duration-300 ease-in-out"
               >
                 Join goal
