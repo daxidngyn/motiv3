@@ -3,9 +3,11 @@ import { withTRPC } from "@trpc/next";
 import type { AppRouter } from "../server/router";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import "../styles/globals.css";
 import DefaultLayout from "../components/layouts/DefaultLayout";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const MyApp: AppType = ({
   Component,
@@ -14,7 +16,14 @@ const MyApp: AppType = ({
   return (
     <SessionProvider session={session}>
       <DefaultLayout>
-        <Component {...pageProps} />
+        {/* @ts-ignore */}
+        {Component.auth ? (
+          <Auth>
+            <Component {...pageProps} />
+          </Auth>
+        ) : (
+          <Component {...pageProps} />
+        )}
       </DefaultLayout>
     </SessionProvider>
   );
@@ -51,3 +60,16 @@ export default withTRPC<AppRouter>({
    */
   ssr: false,
 })(MyApp);
+
+function Auth({ children }: { children: React.ReactNode }) {
+  const { data, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return;
+
+    if (!data) router.push("/");
+  }, [data, status]);
+
+  return <>{children}</>;
+}
