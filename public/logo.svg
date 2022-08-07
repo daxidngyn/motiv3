@@ -1,17 +1,15 @@
-<svg width="80" height="85" viewBox="0 0 80 85" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_21_610)">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M39.9998 0C54.9115 0 66.9998 12.0883 66.9998 27C66.9998 34.8806 63.6235 41.9727 58.2386 46.9086L75.0798 75.492C75.3601 75.968 75.2016 76.581 74.7258 76.862C74.572 76.952 74.3967 77 74.2182 77H5.78119C5.22899 77 4.78119 76.552 4.78119 76C4.78119 75.821 4.82919 75.646 4.92009 75.492L21.7812 46.9271C16.3845 41.9904 12.9998 34.8905 12.9998 27C12.9998 12.0883 25.0881 0 39.9998 0ZM39.9998 5C27.8495 5 17.9998 14.8497 17.9998 27C17.9998 39.1503 27.8495 49 39.9998 49C52.15 49 61.9998 39.1503 61.9998 27C61.9998 14.8497 52.15 5 39.9998 5ZM40.9112 17.496L52.9873 37.9938C49.8689 41.6852 45.2079 44.0292 39.9998 44.0292C34.8052 44.0292 30.1549 41.6974 27.0366 38.0226L39.1539 17.496C39.5435 16.8347 40.5225 16.8347 40.9112 17.496Z" fill="white"/>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1080" height="1080" viewBox="0 0 1080 1080" xml:space="preserve">
+<desc>Created with Fabric.js 4.2.0</desc>
 <defs>
-<filter id="filter0_d_21_610" x="0.781189" y="0" width="78.4371" height="85" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_21_610"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_21_610" result="shape"/>
-</filter>
 </defs>
+<g transform="matrix(1 0 0 1 540 540)" id="bf3f7742-35af-4f70-8868-17a57bd61076"  >
+<rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  x="-540" y="-540" rx="0" ry="0" width="1080" height="1080" />
+</g>
+<g transform="matrix(1 0 0 1 540 540)" id="f2463d7c-f723-4fdd-8b58-a1c278774c5f"  >
+</g>
+<g transform="matrix(6.13 0 0 6.13 540 540)" id="95aaa576-0e0a-40a1-8a28-18fc3fb973ec"  >
+<path style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(129,140,248); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-40, -38.5)" d="M 39.9998 0 C 54.9115 0 66.9998 12.0883 66.9998 27 C 66.9998 34.8806 63.6235 41.9727 58.2386 46.9086 L 75.0798 75.492 C 75.3601 75.968 75.2016 76.581 74.7258 76.862 C 74.572 76.952 74.3967 77 74.2182 77 L 5.78119 77 C 5.22899 77 4.78119 76.552 4.78119 76 C 4.78119 75.821 4.82919 75.646 4.92009 75.492 L 21.7812 46.9271 C 16.3845 41.9904 12.9998 34.8905 12.9998 27 C 12.9998 12.0883 25.0881 0 39.9998 0 Z M 39.9998 5 C 27.8495 5 17.9998 14.8497 17.9998 27 C 17.9998 39.1503 27.8495 49 39.9998 49 C 52.15 49 61.9998 39.1503 61.9998 27 C 61.9998 14.8497 52.15 5 39.9998 5 Z M 40.9112 17.496 L 52.9873 37.9938 C 49.8689 41.6852 45.2079 44.0292 39.9998 44.0292 C 34.8052 44.0292 30.1549 41.6974 27.0366 38.0226 L 39.1539 17.496 C 39.5435 16.8347 40.5225 16.8347 40.9112 17.496 Z" stroke-linecap="round" />
+</g>
 </svg>
