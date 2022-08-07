@@ -6,6 +6,7 @@ import { FaDiscord } from "react-icons/fa";
 import { getMotiv3AuthSession } from "../utils/getMotiv3AuthSession";
 
 export default function Signin({ providers }: any) {
+  console.log(providers);
   return (
     <main className="flex-grow h-full flex flex-col justify-center items-center">
       <div className="max-w-2xl mx-auto w-full border rounded-lg p-4">

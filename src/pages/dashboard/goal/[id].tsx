@@ -132,7 +132,7 @@ export default function GoalPage({ goalData }: any) {
                               />
                               <div className="mt-2">
                                 {new Date(
-                                  goalData.checkpoints[i + 1].date
+                                  goalData.checkpoints[i].date
                                 ).toLocaleDateString(
                                   // @ts-ignore
                                   DateTime.DATE_SHORT
