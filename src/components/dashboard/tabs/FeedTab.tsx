@@ -46,6 +46,8 @@ const DashboardFeedTab = ({ session }: any) => {
                     userName={userGoals.name!}
                     goalTitle={goal.title}
                     betVal={goal.buyIn}
+                    postDate={goal.createdAt}
+                    endDate={goal.endDate}
                   />
                 ))}
               </div>
