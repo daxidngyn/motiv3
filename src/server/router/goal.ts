@@ -1,5 +1,5 @@
 import { createRouter } from "./context";
-import { z } from "zod";
+import { number, z } from "zod";
 import { DateTime } from "luxon";
 import { TRPCError } from "@trpc/server";
 
@@ -88,10 +88,50 @@ export const goalRouter = createRouter()
     input: z.object({
       userId: z.string(),
       goalId: z.string(),
+      startDate: z.date(),
+      endDate: z.date()
     }),
     async resolve({ ctx, input }) {
+
+      const differenceInDays = (startDate: Date, endDate: Date) =>{
+        let differenceInTime = startDate.getTime() - endDate.getTime();
+
+        let differenceInDays = Math.round(differenceInTime/(1000*3600*24))
+
+        return differenceInDays;
+      }
+
+      function addDays(day1: Date, number_added_days: number){
+        let newDate = day1
+        newDate.setDate(day1.getDate()+number_added_days)
+        return newDate
+      }
+
+
+      const {startDate, endDate, userId, goalId} = input
+
+
+      let daysInBetween = differenceInDays(startDate, endDate);
+
+      
+      
+      for (let i = 0; i < daysInBetween; i++) {
+          await ctx.prisma.checkpoint.create({
+            data: {
+              user: {
+                connect: { id: userId },
+              },
+              goal: {
+                connect: { id: goalId },
+              },
+              date: addDays(startDate, i),
+              completed: false,
+          }});
+        }
+  
       return await ctx.prisma.goal.update({
-        where: { id: input.goalId },
+        where: { id: input.goalId }, 
+        //given the goalId we need to reference the rest of the data in the schema
         data: {
           users: {
             connect: {
@@ -99,6 +139,6 @@ export const goalRouter = createRouter()
             },
           },
         },
-      });
+      })
     },
   });
