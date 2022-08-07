@@ -92,9 +92,12 @@ const CreateGoalModal = ({
   const { data: users } = trpc.useQuery(["user.getMatches", userQuery], {
     enabled: userQuery.length >= 3,
   });
+
+  const utils = trpc.useContext();
+
   const uploadGoal = trpc.useMutation(["goal.createGoal"], {
     onSettled: async (data, error, variables, context) => {
-      console.log("uploaded goal:", data);
+      utils.invalidateQueries(["goal.fetchAll"]);
       setLoading(false);
     },
   });

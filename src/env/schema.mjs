@@ -12,6 +12,12 @@ export const serverSchema = z.object({
   NEXTAUTH_URL: z.string().url(),
   DISCORD_CLIENT_ID: z.string(),
   DISCORD_CLIENT_SECRET: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+  ACCOUNT_SID: z.string(),
+  AUTH_TOKEN: z.string(),
+  MESSAGING_SERVICES_SID: z.string(),
+  MY_PHONE_NUMBER: z.string(),
 });
 
 /**
